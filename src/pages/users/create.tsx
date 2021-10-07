@@ -29,7 +29,7 @@ const createUserFormSchema = yup.object().shape({
 
 export default function CreateUser() {
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(createUserFormSchema)
   });
   const { errors } = formState;
@@ -37,6 +37,19 @@ export default function CreateUser() {
   const handleCreateUser: SubmitHandler<CreateUserFormData> = (values) => {
     new Promise(resolve => setTimeout(resolve, 2000));    
     console.log(values);
+    reset({
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
+    }, {
+      keepErrors: true, 
+      keepDirty: true,
+      keepIsSubmitted: false,
+      keepTouched: false,
+      keepIsValid: false,
+      keepSubmitCount: false,
+    })
   }
 
 
@@ -58,7 +71,7 @@ export default function CreateUser() {
           <VStack spacing={["6","8"]}>
             <SimpleGrid minChildWidth="240px" spacing={["6","8"]} w="100%">
               <Input
-                name="nome"
+                name="name"
                 label="Nome Completo"
                 error={errors.name}
                 {...register('name')}
@@ -96,6 +109,9 @@ export default function CreateUser() {
               <Button
                 type="submit"
                 colorScheme="blue"
+                onClick={() => {
+                                      
+                }}
                 isLoading={formState.isSubmitting}
                 >
                 Salvar
